@@ -1,2 +1,6 @@
 # textStreaming
-Text Streaming for enabling LLM models
+Text Streaming for Using gorilla framework websockects
+
+
+# toRUN
+go run test.go
