@@ -3,39 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Test</title>
+    <title>WebSocket Text Streaming Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 80%;
+            height: 200px;
+            overflow-y: scroll;
+        }
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>WebSocket Test</h1>
-    <div>
-        <input type="text" id="messageInput" placeholder="Enter Your message">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-    <div id="messages"></div>
-    <script>
-        const socket = new WebSocket('ws://localhost:8080/ws');
+
+<h1>WebSocket Text Streaming Client</h1>
+
+<div id="output"></div>
+<div id="status">Status: Disconnected</div>
+
+<script>
+    let socket;
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+
+    function connect() {
+        socket = new WebSocket('ws://localhost:8080/stream');
 
         socket.onopen = function(event) {
-            console.log('Connected to WebSocket server');
-            socket.send('Hello Server!');
+            status.textContent = 'Status: Connected';
+            output.innerHTML += '<p>Connected to server.</p>';
         };
 
         socket.onmessage = function(event) {
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `Received: ${event.data}`;
-            document.getElementById('messages').appendChild(messageElement);
+            const message = event.data;
+            output.innerHTML += '<p>' + message + '</p>';
+            output.scrollTop = output.scrollHeight; // Auto-scroll to bottom
+        };
+
+        socket.onerror = function(event) {
+            console.error('WebSocket error observed:', event);
+            output.innerHTML += '<p style="color:red;">Error: ' + event.message + '</p>';
         };
 
         socket.onclose = function(event) {
-            console.log('Disconnected from WebSocket server');
+            status.textContent = 'Status: Disconnected';
+            output.innerHTML += '<p>Disconnected from server.</p>';
         };
-        function sendMessage() {
-            const message = document.getElementById('messageInput').value;
-            socket.send(message);
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `Sent: ${message}`;
-            document.getElementById('messages').appendChild(messageElement);
-        }
-    </script>
+    }
+
+    window.onload = connect;
+</script>
+
 </body>
 </html>

@@ -1,0 +1,30 @@
+### Problem Statement
+
+Design and implement a text streaming endpoint in a programming language of your choice -> (Using Golang)
+
+### Constraints
+
+- You can refer any resources at your disposal.
+- The endpoint should be consumable by an application client.
+(Endpoint (part of server's APIs) -> can be URL or URL path like /route ) exposed to client. lets take /stream as endpoint here.
+
+So, create a HTTP server and write the handling of the route
+http.HandleFunc("/stream",streamHandler) // The server-side code processing requests
+
+- Handle all error scenarios - including possible network disruptions.
+(import fmt for logs and add http Status messages + Debug logs)
+- Chat streaming inference providers are error prone. Your solution should be able to dynamically switch b/w multiple providers having similar outputs based on some qualifying criteria.
+(Think of these providers as LLM models which give ouputs for given text and each has Quality Metrics.
+
+- The criteria to switch inference providers can be derived from the activity on the endpoint - Feel free to come up with a suitable criteria.
+ Provider availabilty, Load balancing, Accuracy meter(for relevance/Quality) ,Latency Measurement
+- Implementation should ensure that the switch is dynamic. Suppose User A is currently interaction with your solution endpoint using Inference Provider X and it starts performing poorly - there should be capability to switch to Inference Provider Y during the progress of the stream.
+(We need a live monitor to check if Provider A is perfomring good or bad and take action)
+- You can stub out inference providers to be fixed text datasets for simplicity.(LLM models giving answers like that or just print provider name)
+
+### Non-Functional Requirements
+
+- Scalability
+- Reliability
+- Robustness
+- User Experience(Create a html page for visualizgin)
