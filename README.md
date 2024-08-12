@@ -3,4 +3,5 @@ Text Streaming for Using gorilla framework websockects
 
 
 # toRUN
-go run test.go
+First run, go run test.go
+Next Open index.html in your browser and click refresh to start
