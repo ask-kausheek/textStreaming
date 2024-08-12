@@ -1,0 +1,28 @@
+Defining the Criteria for Switching:
+
+1) Performance -> response time
+So we need a threshold number 1st
+2) System Health -> Network Issue check, availabilty, stability [Future]
+
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+    // Simulate health check logic
+    w.WriteHeader(http.StatusOK)
+    w.Write([]byte("Provider is healthy"))
+}
+
+3) Quality - Accuracy (Error rate) 
+So need Error rate + user Feedback
+
+Implementing the Switching Logic:
+
+1) Continuously collect and analyze metrics from providers. So monitoring some metrics
+2) Decison Making : 
+3) Switching Mechanism: wihtout disruptions
+
+Handling Errors and Recovery:
+
+Error Detection: Identify errors in real-time.
+Fallback Mechanism: Switch to a backup provider or retry the current provider.[setProvider]
+
+
+Identify when it a Provider starts performing poorly and there should be capability to switch
